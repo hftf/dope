@@ -149,7 +149,7 @@ def avm_to_phrase(avm, raise_grammar_errors=True, strict=True):
 	subject, person, number, tense, modal, have, be, verb, question, negation, contract, cosubordinator, extra_word, passive = (avm.get(k, False) for k in
 	'subject, person, number, tense, modal, have, be, verb, question, negation, contract, cosubordinator, extra_word, passive'.split(', '))
 
-	finite = not (subject == '' and question and not modal)
+	finite = not (subject == '' and question)
 	subject_select = tense + person + 'p'[:number == 'plural']
 
 	# Queue of verbs (modal, auxiliary, main verb), e.g. ['have', 'be', 'go']
@@ -158,8 +158,12 @@ def avm_to_phrase(avm, raise_grammar_errors=True, strict=True):
 	selects = [subject_select if finite else '']
 
 	if not finite:
-		subject = 'to'
-		question = negation
+		if modal:
+			if strict:
+				raise_grammar_error(f'Infinitive not allowed with modal', avm, raise_grammar_errors)
+		else:
+			subject = 'to'
+			question = negation
 	if modal:
 		phrase.append(modal),  selects.append('')
 	elif (question or negation) and not (have or be or passive) and finite and verb not in verbs_without_do_support:
@@ -199,22 +203,25 @@ def avm_to_phrase(avm, raise_grammar_errors=True, strict=True):
 		else:
 			phrase.insert(finite, 'not')
 
-	# inversion
+	# contraction can move before the subject in inversion, so form it before inserting the subject
+	if contract and finite and modal and tense and len(phrase) >= 2 and phrase[1] in contractions:
+		if not "'" in phrase[0]: # to allow two contractions (shouldn't've), change here
+			phrase[0] += contractions[phrase.pop(1)]
+	elif contract and finite and not question and phrase and phrase[0] in contractions:
+		subject += contractions[phrase.pop(0)]
+	elif not cosubordinator and contract and phrase and "'" not in phrase[0]:
+		# contract was enabled, but there was nothing found to contract
+		if strict:
+			raise_grammar_error('There was nothing to contract', avm, raise_grammar_errors)
 	if subject:
-		if contract and finite and modal and tense and len(phrase) >= 2 and phrase[1] in contractions:
-			if not "'" in phrase[0]: # to allow two contractions (shouldn't've), change here
-				phrase[0] += contractions[phrase.pop(1)]
-		elif contract and finite and not question and phrase and phrase[0] in contractions:
-			subject += contractions[phrase.pop(0)]
-		elif contract and phrase and "'" not in phrase[0]:
-			# contract was enabled, but there was nothing found to contract
-			if strict:
-				raise_grammar_error('There was nothing to contract', avm, raise_grammar_errors)
 		phrase.insert(question, subject)
 
 	if cosubordinator:
-		if contract and (cosubordinator[0] in 'wht' and cosubordinator != 'whether') and phrase and phrase[0] in (contractions | interrogative_contractions):
-			cosubordinator += (contractions | interrogative_contractions)[phrase.pop(0)]
+		if contract and (cosubordinator[0] in 'wht' and cosubordinator != 'whether'):
+			if phrase and phrase[0] in (contractions | interrogative_contractions):
+				cosubordinator += (contractions | interrogative_contractions)[phrase.pop(0)]
+			elif phrase and "'" == phrase[0][0]:
+				cosubordinator += phrase.pop(0)
 		phrase.insert(0, cosubordinator)
 
 	if extra_word:

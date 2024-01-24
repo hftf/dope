@@ -234,6 +234,9 @@ def parse_negation(avm, words, d):
 		if not_index > 1:
 			debug(avm, words, 'NEG  ', '', d, f'! Do-support required: negation found {not_index} words in')
 			avm['_do_support'] = True
+		if 'subject' in avm and not avm['subject'] and not_index > 0:
+			debug(avm, words, 'NEG  ', '', d, f'> Branch for possible do-support with empty subject')
+			yield from parse_verbs(dict(avm, _do_support=True), words, 0, d+1)
 
 	# Question
 	# need smarter: subject can't actually be far in
@@ -336,6 +339,10 @@ def parse_verbs(avm, words, i, d):
 			return
 	elif verb in defective_verbs and avm['_select'] in ['en', 'enP', 'ing']:
 		raise_grammar_error(avm, f'Invalid selection of defective verb: {verb}[{avm["_select"]}]', d)
+		return
+	finite = avm['_select'].strip('123Pp') in ['', 'ed']
+	if verb in verbs_without_infinitive and not finite:
+		raise_grammar_error(avm, f'Invalid finite form of defective verb: {verb}[{avm["_select"]}]', d)
 		return
 	if verb in verbs_without_do_support and '_do_support' in avm and '_do_support_do' in avm:
 		raise_grammar_error(avm, f'Invalid do-support-consuming verb after "do": {inflected_verb}', d)
