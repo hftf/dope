@@ -15,6 +15,8 @@ from verb_data import verb_forms, verb_ender_data, MODALS, ENDERS, adverbs, \
 	contractions, negative_contractions, interrogative_contractions, \
 	verbs_without_do_support, verbs_forbidding_existential_there, verbs_forbidding_passive
 from jeff_phrasing import NON_PHRASE_STROKES
+from settings import DefaultSettings as settings
+
 import re
 from collections import defaultdict
 
@@ -23,16 +25,6 @@ LONGEST_KEY = 2
 NON_PHRASE_STROKES = {
 	'SKP-LD': 'and looked',
 }
-
-STROKE_PARTS = re.compile(r'''^\#?
-	(?P<question> \^?)
-	(?P<contract> \+?)
-	(?P<starter>  S?T?K?P?W?H?R?)
-	(?P<modal>    A?O?)-?
-	(?P<negation> \*?)
-	(?P<aspect>   E?U?)
-	(?P<ender>    F?R?P?B?L?G?T?S?D?Z?)$''', # note: D is tense
-	re.X)
 
 # raise_grammar_errors should always be true, except in testing mode
 def raise_grammar_error(message, avm, raise_grammar_errors=True):
@@ -55,10 +47,10 @@ def outline_to_avm(outline, raise_grammar_errors=True, strict=True):
 	# parse second stroke and add features to avm
 	if len(outline) > 1:
 		# naive conflict workaround
-		if outline[1] == '+':
+		if outline[1] == settings.FALLBACK_SECOND_STROKE:
 			raise_grammar_errors = False # only for debugging
 			pass
-		elif outline[1] == '+-P':
+		elif outline[1] == settings.PASSIVE_SECOND_STROKE:
 			avm['passive'] = True
 		# can do other things here, like add post-hoc adverbs, contractions, passive voice, etc.
 		else:
@@ -69,17 +61,14 @@ def outline_to_avm(outline, raise_grammar_errors=True, strict=True):
 def stroke_to_avm(stroke, avm={}, raise_grammar_errors=True):
 	if not avm['strict']:
 		stroke = stroke.replace('§', '')
-	stroke_parts = STROKE_PARTS.match(stroke)
-	if not stroke_parts:
-		raise KeyError(f'Stroke "{stroke}" does not match STROKE_PARTS regex')
+	stroke_parts = settings.STROKE_MATCHER(stroke)
 
-	# TODO: shouldn't use bare .groups()
 	#                  [simple_starter] [simple_pronoun]
-	question, contract, starter, modal, negation, aspect, ender = stroke_parts.groups()
+	question, contract, starter, modal, negation, aspect, ender = [stroke_parts[k] for k in 'question, contract, starter, modal, negation, aspect, ender'.split(', ')]
 
 	# SIMPLE STARTER
-	simple_starter = starter + modal
-	simple_pronoun = negation + aspect
+	simple_starter = settings.SIMPLE_STARTERS_OVERLOAD(stroke_parts)
+	simple_pronoun = settings.SIMPLE_PRONOUNS_OVERLOAD(stroke_parts)
 
 	valid_normal = starter in STARTERS
 	valid_simple = simple_starter in SIMPLE_STARTERS and simple_pronoun in SIMPLE_PRONOUNS
@@ -98,7 +87,7 @@ def stroke_to_avm(stroke, avm={}, raise_grammar_errors=True):
 				if SIMPLE_STARTERS[simple_starter] in simple_starters_forbidding_inversion:
 					raise_grammar_error(f'Subject–aux question inversion does not apply to simple starter "{SIMPLE_STARTERS[simple_starter]}"', avm, raise_grammar_errors)
 					question = ''
-				avm['question'] = question == '^'
+				avm['question'] = question == settings.KEY_MAP['question']
 			if SIMPLE_STARTERS[simple_starter] in simple_starters_requiring_subject and \
 				not SIMPLE_PRONOUNS[simple_pronoun] and \
 				ENDERS[ender]['verb'] and \
@@ -110,16 +99,16 @@ def stroke_to_avm(stroke, avm={}, raise_grammar_errors=True):
 	elif valid_normal:
 		if noun_data[STARTERS[starter]]['subject'] == 'there' and \
 			ENDERS[ender]['verb'] not in verbs_forbidding_existential_there and \
-			('E' not in aspect or ENDERS[ender]['tense'] != 'past'):
+			(settings.KEY_MAP['have'] not in aspect or ENDERS[ender]['tense'] != 'past'):
 			raise_grammar_error(f'Existential "{STARTERS[starter]}" cannot go with verb "{ENDERS[ender]["verb"]}" unless in past', avm, raise_grammar_errors)
 
 		avm.update(noun_data[STARTERS[starter]])
-		avm['have']     = 'E' in aspect
-		avm['be']       = 'U' in aspect
+		avm['have']     = settings.KEY_MAP['have'] in aspect
+		avm['be']       = settings.KEY_MAP['be'] in aspect
 		avm['modal']    = MODALS[modal]
-		avm['question'] = question == '^'
-		avm['negation'] = negation == '*'
-	avm['contract'] = contract == '+'
+		avm['question'] = settings.KEY_MAP['question'] == question
+		avm['negation'] = settings.KEY_MAP['negation'] == negation
+	avm['contract'] = settings.KEY_MAP['contract'] == contract
 
 	avm.update(ENDERS[ender])
 	return avm
@@ -278,14 +267,14 @@ POSSIBLE_REVERSE_MATCH = re.compile(r"[a-zI ']+")
 
 def avm_to_outlines(avm):
 	lookups = {
-		'question':       '^',
-		'contract':       '+',
+		'question':       settings.KEY_MAP['question'],
+		'contract':       settings.KEY_MAP['contract'],
 		'cosubordinator': reverse_SIMPLE_STARTERS,
 		'subject':        reverse_STARTERS,
 		'modal':          reverse_MODALS,
-		'negation':       '*',
-		'have':           'E',
-		'be':             'U',
+		'negation':       settings.KEY_MAP['negation'],
+		'have':           settings.KEY_MAP['have'],
+		'be':             settings.KEY_MAP['be'],
 	}
 
 	if 'cosubordinator' in avm and avm['cosubordinator']:
@@ -329,10 +318,10 @@ def avm_to_outline_aux(avm, outline):
 		outline = '§' + outline
 
 	if 'passive' in avm and avm['passive']:
-		outline += '/+-P'
-	elif outline.replace('+', '') in NON_PHRASE_STROKES:
-		print(f'Adding fallback {outline}/+ due to entry in NON_PHRASE_STROKES')
-		yield (outline, '+')
+		outline += '/' + settings.PASSIVE_SECOND_STROKE
+	elif outline.replace(settings.FALLBACK_SECOND_STROKE, '') in NON_PHRASE_STROKES:
+		print(f'Adding fallback {outline}/{settings.FALLBACK_SECOND_STROKE} due to entry in NON_PHRASE_STROKES')
+		yield (outline, settings.FALLBACK_SECOND_STROKE)
 
 	yield tuple(outline.split('/'))
 
