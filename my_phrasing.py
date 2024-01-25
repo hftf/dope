@@ -276,6 +276,7 @@ def avm_to_outlines(avm):
 		'have':           settings.KEY_MAP['have'],
 		'be':             settings.KEY_MAP['be'],
 	}
+	outline_parts = {}
 
 	if 'cosubordinator' in avm and avm['cosubordinator']:
 		lookups['subject'] = reverse_SIMPLE_PRONOUNS
@@ -283,7 +284,6 @@ def avm_to_outlines(avm):
 		# assert not avm['modal'] and not avm['have'] and not avm['be']
 		del lookups['modal'], lookups['have'], lookups['be'], lookups['negation']
 
-	outline = ''
 	for feature in lookups:
 		if feature in avm and avm[feature] not in [None, False]:
 			if feature == 'subject':
@@ -291,12 +291,20 @@ def avm_to_outlines(avm):
 			else:
 				k = avm[feature]
 			if type(lookups[feature]) == str:
-				outline += lookups[feature]
+				outline_parts[feature] = lookups[feature]
 			else:
-				outline += lookups[feature][k]
+				outline_parts[feature] = lookups[feature][k]
 
-	if outline[-1] not in 'A5O0*EU':
-		outline += '-'
+	outline = ''
+	for feature in settings.STROKE_ORDER:
+		if feature in outline_parts:
+			outline += outline_parts[feature]
+		elif feature == 'hyphen':
+			if not outline or outline[-1] not in 'A5O0*EU':
+				outline += '-'
+		else:
+			# print('feature', feature, 'not in outline_parts', outline_parts)
+			pass
 
 	k = (avm['tense'], avm['verb'], avm['extra_word'])
 	if k not in reverse_ENDERS:

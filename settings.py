@@ -29,6 +29,16 @@ class Settings:
 		(?P<ender>    F?R?P?B?L?G?T?S?D?Z?)$''', # note: D is tense
 		re.X)
 
+	STROKE_ORDER = [
+		'question',
+		'contract',
+		'cosubordinator', 'subject', 'modal',
+		'negation',
+		'have', 'be',
+		'hyphen',
+		#'ender'
+	]
+
 	# Parses a stroke and returns a dict of the stroke split into 7 parts.
 	@classmethod
 	def STROKE_MATCHER(cls, stroke):
@@ -68,6 +78,14 @@ class JosiahSettings(Settings):
 		(?P<ender>    R?P?B?L?G?T?S?D?Z?)$''', # note: D is tense
 		re.X)
 	
+	STROKE_ORDER = [
+		'contract',
+		'cosubordinator', 'subject', 'modal',
+		'negation',
+		'be', 'question', 'hyphen', 'have',
+		#'ender'
+	]
+
 	def STROKE_MATCHER(stroke):
 		stroke_parts = super(JosiahSettings, JosiahSettings).STROKE_MATCHER(stroke)
 		stroke_parts['aspect'] = stroke_parts['be'] + stroke_parts['have']
