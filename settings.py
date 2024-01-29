@@ -80,6 +80,7 @@ class JosiahSettings(Settings):
 	
 	STROKE_ORDER = [
 		'contract',
+		# not gonna work because simple subject is split up: ^ ... EU
 		'cosubordinator', 'subject', 'modal',
 		'negation',
 		'be', 'question', 'hyphen', 'have',
