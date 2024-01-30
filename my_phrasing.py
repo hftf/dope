@@ -6,8 +6,8 @@ except:
 	import appdirs
 	plover_dir = appdirs.user_data_dir('plover', 'plover')
 import os, sys
-jeff_dir = os.path.join(plover_dir, 'jeff-phrasing/')
-sys.path.append(jeff_dir)
+dope_dir = os.path.join(plover_dir, 'dope/')
+sys.path.append(dope_dir)
 
 from noun_data import noun_data,  STARTERS, SIMPLE_STARTERS, SIMPLE_PRONOUNS, \
 	simple_starters_requiring_subject, simple_starters_forbidding_inversion
