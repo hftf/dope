@@ -733,9 +733,9 @@ However, you are welcome to try it if you can get it to work.
 
 1. Ensure all dependencies are installed:
 `plover_python_dictionary`, `plover-stenotype-extended`, `appdirs`.
-2. Clone or download this folder (currently called `jeff-phrasing`)
+2. Clone or download this folder (currently called `dope`)
 and put it as a subdirectory inside `plover`.
-3. Open Plover and add `jeff-phrasing/my_phrasing.py` as a dictionary.
+3. Open Plover and add `dope/my_phrasing.py` as a dictionary.
 (The other `.py` files need to be in the same folder as `my_phrasing.py`,
 but do not add them to Plover as they are not dictionaries themselves.)
 
@@ -744,7 +744,7 @@ but do not add them to Plover as they are not dictionaries themselves.)
 If the module resolution at the top of `my_phrasing.py` is not working
 (errors like `No module named 'noun_data'` appear),
 
-https://github.com/hftf/roirpt/blob/38adfd827fed6e5df50f9a9580334401c865a948/jeff-phrasing/my_phrasing.py#L1-L10
+https://github.com/hftf/dope/blob/b0706524698f220defed0a951a0044478361cf3a/my_phrasing.py#L1-L10
 
 then, for now, you can try to replace it with a hard-coded path:
 
