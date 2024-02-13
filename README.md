@@ -35,6 +35,29 @@ Since relativizers and modals are mutually exclusive (they share the same keyspa
 that is, <samp>who</samp> cannot be used with <samp>can</samp> in the same phrase –
 the earlier example requires two strokes: e.g. <kbd>WHO/^KPWHAEUPTDZ</kbd>.
 
+<p><details>
+<summary>Diagram of the phrase above</summary>
+<table>
+<thead>
+<tr><th/><th>starter</th><th colspan="4">medial</th><th colspan="3">ender</th></tr>
+<tr><th/><th><kbd>KPWH</kbd></th><th><kbd>A</kbd></th><th><kbd>^</kbd></th><th><kbd>E</kbd></th><th><kbd>U</kbd></th><th><kbd>PZ</kbd></th><th><kbd>T</kbd></th><th><kbd>D</kbd></th></tr>
+</thead>
+<tbody>
+<tr><td>pronoun   </td>                 <td align="center"><kbd>KPWH</kbd><br/><samp>it</samp> </td><td colspan="7"/></tr><tr/>
+<tr><td>modal     </td><td colspan="1"/><td align="center"><kbd>A</kbd>   <br/><samp>can</samp></td><td colspan="6"/></tr>
+<tr><td>tense     </td><td colspan="1"/><td align="center"><samp><del>can</del></samp><br/>⤷ <samp>could</samp></td><td colspan="5"/><td align="center" caolspan="1"><kbd>D</kbd><br/>past</td></tr><tr/>
+<tr><td>inversion </td><td align="center" colspan="2"><samp>  <del>it could</del></samp><br/>⤷ <samp>could it</samp></td><td align="center"><kbd>^</kbd><br/> </td><td colspan="5"/></tr>
+<tr><td>aspect    </td><td colspan="3"/><td align="center"><kbd>E</kbd>   <br/>perfect            </td><td align="center"><kbd>U</kbd>   <br/>prog.              </td><td colspan="3"/></tr><tr/>
+<tr><td>main verb </td><td colspan="5"/><td align="center"><kbd>PZ</kbd>  <br/><samp>happen</samp></td><td colspan="2"/></tr><tr/>
+<tr><td>extra word</td><td colspan="6"/><td align="center"><kbd>T</kbd>   <br/><samp>to</samp>    </td><td/></tr>
+</tbody>
+<tfoot>
+<tr align="center">    <td>        </td><td colspan="3"><samp>could it</samp></td><td><samp>have</samp></td><td><samp>been</samp></td><td><samp>happening</samp></td><td><samp>to</samp></td><td/></tr>
+</tfoot>
+</table>
+</details>
+</p>
+
 Important precursors of this project include the phrasing systems of
 [Aerick](https://github.com/aerickt/aerick-phrasing),
 [Jade](https://github.com/Jade-GG/plover_phrasing),
@@ -450,6 +473,7 @@ Modals are usually defective verbs (so can only be finite, inflecting for tense)
 > [!NOTE]
 > The so-called “future tense” is treated here as a <samp>will</samp> modal, not a tense,
 which is consistent with the approach taken in many English grammars.
+See also [this video](https://www.youtube.com/watch?v=YH512TnN4P0).
 
 || Modal
 -|-
