@@ -287,7 +287,7 @@ Any amount of contribution makes a difference.
 
 ## Phrasing system (default design)
 
-The system is designed for the key layout below.
+By default, the system is designed for the key layout below.
 (The <kbd>^</kbd> and <kbd>+</kbd> keys require the
 [`plover-stenotype-extended`](https://github.com/sammdot/plover-stenotype-extended) plugin.)
 
@@ -304,7 +304,9 @@ Look for dicts in files named `*_data.py`.
 > [!WARNING]
 > At this time, the key layout above is assumed,
 > so chords may not have comfortable shapes for everyone.
-> This will be made more customizable at some point.
+> This will be made more customizable at some point,
+> through an interface being developed in `settings.py`.
+> Feel free to hack the code to do what you want!
 
 ### Pictographic key layout
 
@@ -751,12 +753,13 @@ You can probably get acquainted with a phrasing system to a basic level in as li
 
 ## Installation
 
-At this time, the project is still in very early development
+At this time, the project is still in early development
 and is not quite ready to work out of the box.
 However, you are welcome to try it if you can get it to work.
 
 1. Ensure all dependencies are installed:
-`plover_python_dictionary`, `plover-stenotype-extended`, `appdirs`.
+`plover_python_dictionary`, `plover-stenotype-extended` (Plover plugins),
+`appdirs` (Python module).
 2. Clone or download this folder (currently called `dope`)
 and put it as a subdirectory inside `plover`.
 3. Open Plover and add `dope/my_phrasing.py` as a dictionary.
@@ -795,16 +798,17 @@ then, for now, you can try to replace it with a hard-coded path:
 * Add some Josiah extensions
 * Add examples in readme
 * Change extra word in passive to <samp>supposed to</samp>
-* Allow `why are`, `how are`, etc. (only singular null simple subject is available)
-* Automatically fix double `to`, e.g. `I am going to` followed by `to be a`
+* Automatically fix double `to`, e.g. `I am going to` followed by `to be a` (sugar)
 
 ### Long-term
 
 * Create better resources
-	* Video lessons? Interactive lessons?
+	* Video lessons? Interactive lessons? Cheat sheet/poster/explainer?
 * Handle unwanted suffix keys
+* Produce no ungrammatical output
 * Fix conflicts with my dictionaries
 * Singular/plural distinction in relativizers
+	* Allow `why are`, `how are`, etc. (only singular null simple subject is available)
 * Irrealis (so-called “past subjunctive”) with <samp>if</samp>
 	* Could repurpose <samp>if</samp> + past tense
 * Adverb medials (<samp>just</samp>, <samp>really</samp>, <samp>even</samp>, <samp>still</samp>, <samp>always</samp>, <samp>never</samp>)

@@ -17,17 +17,19 @@ class Settings:
 	}
 
 	# Regular expression for validating and parsing strokes.
-	# Must contain named capture groups for the following 7 keys:
+	# Must contain the following 7 named capture groups:
 	# question, contract, starter, modal, negation, aspect, ender
-	STROKE_PARTS = re.compile(r'''^\#?
+	STROKE_PARTS = re.compile(r'''^
+		              \#?
 		(?P<question> \^?)
 		(?P<contract> \+?)
 		(?P<starter>  S?T?K?P?W?H?R?)
 		(?P<modal>    A?O?)-?
 		(?P<negation> \*?)
 		(?P<aspect>   E?U?)
-		(?P<ender>    F?R?P?B?L?G?T?S?D?Z?)$''', # note: D is tense
-		re.X)
+		(?P<ender>    F?R?P?B?L?G?T?S?D?Z?) # note: D is used for tense
+		$''',
+		re.X) # flag for verbose regex that ignores whitespace and comments
 
 	STROKE_ORDER = [
 		'question',
@@ -40,6 +42,7 @@ class Settings:
 	]
 
 	# Parses a stroke and returns a dict of the stroke split into 7 parts.
+	# Unspecialized (depends only on STROKE_PARTS), so can call super in subclasses.
 	@classmethod
 	def STROKE_MATCHER(cls, stroke):
 		match = cls.STROKE_PARTS.match(stroke)
@@ -66,7 +69,8 @@ class JosiahSettings(Settings):
 		'be':       'E',
 	}
 
-	STROKE_PARTS = re.compile(r'''^\#?
+	STROKE_PARTS = re.compile(r'''^
+		              \#?
 		(?P<caret>    \^?)
 		(?P<contract> \+?)
 		(?P<starter>  S?T?K?P?W?H?R?)
@@ -75,12 +79,14 @@ class JosiahSettings(Settings):
 		(?P<be>       E?)
 		(?P<question> U?)
 		(?P<have>     F?)
-		(?P<ender>    R?P?B?L?G?T?S?D?Z?)$''', # note: D is tense
-		re.X)
+		(?P<ender>    R?P?B?L?G?T?S?D?Z?) # note: D is used for tense
+		$''',
+		re.X) # flag for verbose regex that ignores whitespace and comments
 	
 	STROKE_ORDER = [
 		'contract',
-		# not gonna work because simple subject is split up: ^ ... EU
+		# FIXME this is not actually gonna work because
+		# simple subject keys ^ ... EU are split up with intervening stuff
 		'cosubordinator', 'subject', 'modal',
 		'negation',
 		'be', 'question', 'hyphen', 'have',
@@ -93,7 +99,7 @@ class JosiahSettings(Settings):
 		return stroke_parts
 
 	SIMPLE_PRONOUNS_OVERLOAD = lambda parts: parts['caret'] + parts['be'] + parts['question']
-	# need to also redefine SIMPLE_PRONOUNS in noun_data.py to use ^ instead of *
+	# FIXME need code to also redefine SIMPLE_PRONOUNS in noun_data.py to use ^ instead of *
 
 if __name__ == '__main__':
 	# a few tests to debug stroke matching
@@ -110,7 +116,6 @@ if __name__ == '__main__':
 		JosiahSettings: {
 			'SWR*UTS': {'starter': 'SWR', 'negation': '*', 'question': 'U', 'ender': 'TS'},
 		},
-
 	}
 	for settings, tests in all_tests.items():
 		for stroke, stroke_parts in tests.items():
