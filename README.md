@@ -758,10 +758,10 @@ and is not quite ready to work out of the box.
 However, you are welcome to try it if you can get it to work.
 
 1. Ensure all dependencies are installed:
-`plover_python_dictionary`, `plover-stenotype-extended` (Plover plugins),
+`plover_python_dictionary`, `plover-stenotype-extended` (both Plover plugins),
 `appdirs` (Python module).
 2. Clone or download this folder (currently called `dope`)
-and put it as a subdirectory inside `plover`.
+and put it as a subdirectory inside the `plover` appdir.
 3. Open Plover and add `dope/my_phrasing.py` as a dictionary.
 (The other `.py` files need to be in the same folder as `my_phrasing.py`,
 but do not add them to Plover as they are not dictionaries themselves.)
@@ -787,6 +787,10 @@ then, for now, you can try to replace it with a hard-coded path:
 
 ## To-do list
 
+Remember that this project encompasses both phrasing system and engine (internals)
+– see [§ Motivation](#motivation) above.
+The former is fairly stable, while the latter is undergoing more work.
+
 ### Short-term
 
 * Write installation instructions
@@ -795,20 +799,24 @@ then, for now, you can try to replace it with a hard-coded path:
 * Consider dropping the terms starter/medial/ender entirely
 	* For “chord”?
 * Consider grouping verbs by arbitrary added key (e.g. <kbd>S</kbd>, <kbd>Z</kbd>)
-* Add some Josiah extensions
-* Add examples in readme
+* Abstraction of user settings
+	* Duplicate tests for different settings
+	* Document how a user can change settings
+* Add some Josiah extensions (depends on above)
+* Create better resources
+	* Video lessons? Interactive lessons?
+	* Cheat sheet/poster/explainer?
+	* Sample texts for drilling
 * Change extra word in passive to <samp>supposed to</samp>
 * Automatically fix double `to`, e.g. `I am going to` followed by `to be a` (sugar)
 
 ### Long-term
 
-* Create better resources
-	* Video lessons? Interactive lessons? Cheat sheet/poster/explainer?
 * Handle unwanted suffix keys
 * Produce no ungrammatical output
 * Fix conflicts with my dictionaries
 * Singular/plural distinction in relativizers
-	* Allow `why are`, `how are`, etc. (only singular null simple subject is available)
+	* Allow `why are`, `how are`, etc. (the only available null simple subject is singular)
 * Irrealis (so-called “past subjunctive”) with <samp>if</samp>
 	* Could repurpose <samp>if</samp> + past tense
 * Adverb medials (<samp>just</samp>, <samp>really</samp>, <samp>even</samp>, <samp>still</samp>, <samp>always</samp>, <samp>never</samp>)
@@ -816,9 +824,6 @@ then, for now, you can try to replace it with a hard-coded path:
 (<samp>can have</samp>, <samp>shall have</samp> are less common than
 <samp>could have</samp>, <samp>should have</samp>,
 so maybe we can avoid needing to press <kbd>-D</kbd> to make <samp>could</samp>, <samp>should</samp>)
-* Abstraction of user settings
-	* Duplicate tests for different settings
-	* Document how a user can change settings
 
 ## About
 
