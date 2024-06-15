@@ -809,6 +809,7 @@ The former is fairly stable, while the latter is undergoing more work.
 	* Sample texts for drilling
 * Change extra word in passive to <samp>supposed to</samp>
 * Automatically fix double `to`, e.g. `I am going to` followed by `to be a` (sugar)
+* Allow some relativizers with past participle, e.g. `when asked`
 
 ### Long-term
 
@@ -824,6 +825,7 @@ The former is fairly stable, while the latter is undergoing more work.
 (<samp>can have</samp>, <samp>shall have</samp> are less common than
 <samp>could have</samp>, <samp>should have</samp>,
 so maybe we can avoid needing to press <kbd>-D</kbd> to make <samp>could</samp>, <samp>should</samp>)
+* Consider <kbd>KPWREPLD</kbd> <samp>you might have</samp> (\*<samp>you have might</samp>) etc.
 
 ## About
 

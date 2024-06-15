@@ -17,6 +17,7 @@ tests = {
 	"STWREFL":        "have felt",
 	"+STWREFL":       None, # * 've felt
 	"+STKPWHREUFL":   None, # * 's been feeling,
+	"+SKP-B":         None, # * and 's
 # }
 # foo = {
 	"SWR*":           "I do not",
