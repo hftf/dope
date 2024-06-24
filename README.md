@@ -546,7 +546,7 @@ It tries to be the most frequent collocation or most useful otherwise.
 Some examples of extra words:
 <samp>a</samp>, <samp>it</samp>, <samp>to</samp>, <samp>the</samp>, <samp>that</samp>, <samp>like</samp>, <samp>on</samp>.
 
-The verb enders are defined in [`verb_data.py:135`](./verb_data.py#L135).
+The verb enders are defined in [`verb_data.py:138`](./verb_data.py#L138).
 The following table shows the defaults.
 
 ### Verb ender table
