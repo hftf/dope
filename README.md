@@ -434,6 +434,9 @@ Only eight subjects total exist in “simple form”:
 <tr><td><kbd> </kbd></td><td>(null)</td><td></td><td></td></tr>
 </tbody></table>
 
+> [!NOTE]
+> In Jeff phrasing, “simple form” does not allow a null subject.
+
 ### Tense
 
 Phrases can be in present (non-past) or past tense.
@@ -703,7 +706,7 @@ so <kbd>KPWRES/+</kbd> can be used to access the phrase <samp>you have seen</sam
 ### Summary of differences with other phrasing systems
 
 <table>
-<thead><tr><th>Feature</th><th width="88">Jeff</th><th width="88">Josiah</th><th>Default</th></tr></thead>
+<thead><tr><th>Feature</th><th width="88">Jeff</th><th width="88">Josiah</th><th>Dope default</th></tr></thead>
 <tbody align="left">
 <tr><td>Perfect     aspect (<samp>have</samp>)</td><td colspan="2"><kbd>F</kbd></td><td><kbd>E</kbd></td></tr>
 <tr><td>Progressive aspect (<samp>be</samp>)  </td><td colspan="2"><kbd>E</kbd></td><td><kbd>U</kbd></td></tr>
