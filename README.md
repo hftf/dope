@@ -191,6 +191,15 @@ While this change may not make optimal use of keyboard space,
 as there aren’t too many more enders to include,
 the freed up room could potentially be used for extra words.
 
+It is important to understand that,
+aside from enabling some extra functionality,
+iconicity is the main reason why this project is (by default) designed around, _but does not necessitate_,
+the use of extra keys.
+For most hobbyists, it’s the most readily available trade-off for achieving less arbitrariness.
+(See [§ Key layout](#phrasing-system-default-design) below;
+if you don’t want to use extra keys,
+you can always customize it to your liking while still making use of the underlying engine.)
+
 ### Make right pinky shifting optional
 
 In [Jeff phrasing](https://github.com/jthlim/jeff-phrasing/tree/main#verbs-and-suffix-words),
@@ -792,7 +801,7 @@ then, for now, you can try to replace it with a hard-coded path:
 
 Remember that this project encompasses both phrasing system and engine (internals)
 – see [§ Motivation](#motivation) above.
-The former is fairly stable, while the latter is undergoing more work.
+The former is fairly stable, while the latter still needs to undergo more work.
 
 ### Short-term
 
@@ -836,3 +845,23 @@ so maybe we can avoid needing to press <kbd>-D</kbd> to make <samp>could</samp>,
 * Started rewrite on September 26, 2023
 * First published on October 13, 2023
 * Split from [parent repository](https://github.com/hftf/roirpt) on January 29, 2024
+
+## Status/FAQ
+
+<dl>
+<dt>Is this project finished?</dt>
+<dd>Not fully. But on a daily basis, it does everything I want it to.
+I have already found the configuration that works for me
+and have been using it stably for a year with no changes.</dd>
+<dt>Is development active?</dt>
+<dd>Currently inactive (but not abandoned).
+I was interested in building more robust and further abstractions for the engine,
+but haven’t managed to find other users or testers to try it out,
+and have less availability for this hobby.</dd>
+<dt>How many people use this?</dt>
+<dd>I don’t know if anyone else uses it.</dd>
+<dt>How do I…?</dt>
+<dd>This project is basically available as-is (DIY).
+Setting it up and tweaking it both assume some familiarity with coding and development tools.
+But if you find a way to send me a message, I may be able to help.</dd>
+</dl>
